@@ -1,0 +1,85 @@
+****** SITE CONTENT ******
+
+-------- Colors ----------
+
+background dark : #292929;
+background light : #353535;
+color: #f3971b;
+text color: #c2c0c3;
+
+------ All Sections -----
+
+1.Header
+2.Home
+3.About
+4.Services
+5.Skills
+6.Portfolio
+7.Team
+8.Contact form
+9.Footer
+
+1.----- Header Section CONTENT -----
+ 
+ Home,About,Services,Portfolio,Team,Contact
+
+2.----- Home Section Contact -----
+
+ Hi, I'm Krishna Badiger
+ Frontend Developer
+ 
+3.----- About Section CONTENT -----
+
+Hi, I'm Krishna Badiger
+Frontend Developer based in Kranataka,Koppal,kinnal.
+-----------
+
+Download Cv Hire Me
+
+4.----- Service Section CONTENT -----
+
+                          >FONT AWESOME ICONS CODES
+web Developmet            > fa-laptop
+Responsive Design         >fa-mobile
+Creative Design            >fa-pencil
+Clean Code                >fa-code
+Fat Support               >fa-support
+Branding Identity         >fa-rocket
+
+5.----- Skills Section CONTENT -----
+
+Html5
+Css
+Javascript
+Angular
+PHP
+Java
+React
+
+6.----- Portfolio Section CONTENT -----
+
+Web Design
+Graphic Design
+Branding
+
+7.----- Team Section CONTENT -----
+
+Krishna Badiger > Web Developer
+Krishna Badiger > Designer
+Krishna Badiger > APP Developer
+
+8.----- Contact Section CONTENT -----
+
+Name           > text
+Email          > text
+Subject        > text
+Message        > textarea
+Send Message   > Button
+
+9.----- Footer Section CONTENT -----
+
+Phon No              Email              Location
+___________________________________________________
+
+Social Media Links
+

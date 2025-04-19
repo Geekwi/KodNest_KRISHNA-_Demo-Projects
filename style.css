@@ -1,30 +1,8 @@
-body{
-	 margin: 0;
-	 padding: 0;
-	 background: url(img/8.jpg);
-	 }
-	 h1{
-	 text-align:center;
-	 background:#009;
-	color: white;
+Start Header{
+ margin:0;
+ padding:0;
+ 
  }
- h2{
-   text-align:center;
-	 background:#009;
-	color: white;
+ Header{
+ position:fixed;
  }
- h3{
-	 text-align:center;
-	 background:#009;
-	color: white;
- } 
- h4{
-	 text-align:center;
-	 background:#009;
-	color: white;
- } 
- h5{
-	 text-align:center;
-	 background:#009;
-	color: white;
- }  
