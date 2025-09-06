@@ -1,137 +1,157 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotstar search Movies- Description</title>
+    <style>
+        #cont,#head{
+            width: 80%;
+            margin: auto;
+            display: flex;
+            justify-content: space-around;
 
-<title>MY Dreams.com</title>
-<style>
-.slideshow{
-    margin:0 auto;
-	padding-top:50px;
-	height:400px;
-	background:skyblue;
-	box-sizing:border-box;
-}
-
-.content{
-   margin:auto;
-   width:190px;
-   perspective:1000px;
-   position:relative;
-   padding-top:80px;
-}
-
-.content-carrousel{
-     width:100%;
-	 position:absolute;
-	 float:right;
-	 animation:rotar 15s infinite linear;
-	 transform-style:pereserve-3d;
-}
-
-.content-carrousel:hover{
-         animation-play-state:paused;
-		 cursor:pointer;
-}
-
-.content-carrousel figure{
-   width:100%;
-   height:120px;
-   border:1px solid #4d444d;
-   overflow:hidden;
-   position:absolute;
-}
-.content-carrousel figure:nth-child(1){
-       transform:rotateY(0deg) translateZ(300px);
-}
-
-.content-carrousel figure:nth-child(2){
-       transform:rotateY(40deg) translateZ(300px);
-}
-
-.content-carrousel figure:nth-child(3){
-       transform:rotateY(80deg) translateZ(300px);
-}
-
-.content-carrousel figure:nth-child(4){
-       transform:rotateY(120deg) translateZ(300px);
-}
-
-.content-carrousel figure:nth-child(5){
-       transform:rotateY(160deg) translateZ(300px);
-}
-
-.content-carrousel figure:nth-child(6){
-       transform:rotateY(200deg) translateZ(300px);
-}
-
-.content-carrousel figure:nth-child(7){
-       transform:rotateY(240deg) translateZ(300px);
-}
-
-.content-carrousel figure:nth-child(8){
-       transform:rotateY(280deg) translateZ(300px);
-}
-
-.content-carrousel figure:nth-child(9){
-       transform:rotateY(320deg) translateZ(300px);
-}
-
-.shadow{
-    position:absolute;
-	box-shadow:0px 0px 20px 0px #000;
-	border-radius:2px;
-}
-
-.content-carrousel img{
-      image-rendering:auto;
-	  transition:all 300ms;
-	  width:100%;
-	  height:100%;
-}
-
-.content-carrousel img:hover{
-       transform:scale(1,2);
-	   transition:all 300ms;
-}
-
-.@keyframes rotar{
-     from{
-	    transform: rotateY(0deg);
-       } to{
-	    transform: rotateY(360deg);
-	   }
-}
-
-
-</style>	
+        }
+        input{
+            width: 350px;
+            padding: 8px;
+        }
+        #movies{
+            height: 250px;
+            width: 352px;
+            padding: 8px;
+            border: 1px solid teal;
+            border-top: none;
+            overflow: scroll;
+        }
+        #movies>div{
+            display: flex;
+            margin: 6px 0;
+        }
+        #movies>div>img{
+            max-width: 40%;
+            min-width: 40%;
+            max-height: 80px;
+            margin-right: 8px;
+        }
+        #search{
+            width: 25%;
+            padding: 20px;
+        }
+        #movieDesc{
+            display: flex;
+            width: 700px;
+            height: auto;
+            background-color: rgb(245, 246, 247);
+        }
+        #movieDesc>div>img{
+            width: 100%;
+            max-height: 550px;
+        }
+        #movieDesc>div{
+            padding: 20px;
+            width: 100%;
+        }
+    </style>
 </head>
-
 <body>
-<section class="slideshow">
-    <div class="content">
-	  <div class="content-carrousel">
-		<figure class="shadow"><img src="img/5.jpg"></figure>
-		<figure class="shadow"><img src="img/5.jpg"></figure>
-		<figure class="shadow"><img src="img/5.jpg"></figure>
-		<figure class="shadow"><img src="img/5.jpg"></figure>
-		<figure class="shadow"><img src="img/5.jpg"></figure>
-		<figure class="shadow"><img src="img/5.jpg"></figure>
-		<figure class="shadow"><img src="img/5.jpg"></figure>
-		<figure class="shadow"><img src="img/5.jpg"></figure>
-		<figure class="shadow"><img src="img/5.jpg"></figure>
-		
-		 
-	</div>
-</div>	
-<div>
-<center>
-<br><br><br><br><br><br><br><br><br>
-<table bgcolor="gray" width=1200 height=50 border="2px">
-<tr><td>
-<center><marquee><span style="color:white"><h1> IF I TAKE CARE OF MY CHARACTER,MY REPUTATION WILL TAKE CARE OF ME.</h1></span></marquee></CENTER>
-</tr></td>
-</table>
-<image src="img/8.GIF" width=1300 height=300>
-</center>
-</div>
+    <div id="head">
+        <h2>Search movie name</h2>
+        <h2>Search result</h2>
+    </div>
+    <div id="cont">
+        <div id="search">
+            <input id="query" oninput="debounceFunction(main,600)" type="text" placeholder="Enter movie name">
+            <div id="movies"></div>
+        </div>
+        <div id="movieDesc"></div>
+    </div>
+</body>
+</html>
+<script>
+// url ---> https://www.omdbapi.com/?s=${query}&apikey=ffb0eb42
+
+    // get search data from imdb API
+    async function searchMovies(query){
+        try{
+        const url = `https://www.omdbapi.com/?s=${query}&apikey=ffb0eb42`;
+        let res = await fetch(url);
+        let data = await res.json();
+        return data.Search;
+        }catch(error){
+            console.log('error: ',error);
+        }
+    }
+
+    // Search movie according to user input
+    async function main(){
+        let query = document.getElementById('query').value;
+        let res = searchMovies(query); // async function returns promise
+        data = await res;
+        displayMovies(data);
+        console.log(data);
+    }
+
+    // Debounce function to inmprove process according to search speed
+    let id;
+    function debounceFunction(func,delay){
+        if(id){
+            clearTimeout(id);
+        }
+        id = setTimeout(function(){
+            func();
+        },delay);
+    }
+
+    // append search data next to search bar
+    const moviesDiv = document.getElementById('movies');
+    function displayMovies(movies){
+        moviesDiv.innerHTML = null;
+        if(movies === undefined){
+            let div = document.createElement('div');
+            let p = document.createElement('p');
+            p.innerText = 'Movie not found';
+            div.append(p);
+            moviesDiv.append(div);
+            return false;
+        }
+        else{
+            movies.forEach(el => {
+                let div = document.createElement('div');
+                let poster = document.createElement('img');
+                poster.src = el.Poster;
+                let name = document.createElement('h3');
+                name.innerText = el.Title;
+                div.append(poster,name);
+                moviesDiv.append(div);
+                div.addEventListener('click',function(){
+                    // console.log(el);
+                    movieDesc(el);
+                });
+                
+            });
+        }
+    }
+
+    // append data in to movie section
+    const moviesDesc = document.getElementById('movieDesc');
+    function movieDesc(movie){
+        moviesDesc.innerHTML = null;
+        let div = document.createElement('div');
+        let poster = document.createElement('img');
+        poster.src = movie.Poster;
+        let div1 = document.createElement('div');
+        let name = document.createElement('h3');
+        name.innerText = `Title: ${movie.Title}`;
+        let type = document.createElement('p');
+        type.innerText = `Type: ${movie.Type}`;
+        let year = document.createElement('p');
+        year.innerText = `Year: ${movie.Year}`;
+        div1.append(name,type,year);
+        div.append(poster,div1);
+        moviesDesc.append(div);
+    }
+</script>
 </body>
 </html>
