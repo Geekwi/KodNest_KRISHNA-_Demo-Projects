@@ -1,157 +1,154 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotstar search Movies- Description</title>
-    <style>
-        #cont,#head{
-            width: 80%;
-            margin: auto;
-            display: flex;
-            justify-content: space-around;
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+<meta charset="UTF-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<title>Login & Movies</title> 
+<link href="style.css" rel="stylesheet"> 
+</head> 
+<body> 
+<!-- Login Page --> 
+<div class="container" id="loginPage"> 
+<div class="card"> 
+<h2>Login</h2> 
+<input type="email" id="email" placeholder="Enter Email" required><br> 
+<input type="password" id="password" placeholder="Enter Password" required><br> 
+<button onclick="login()">Login</button> 
+<p id="errorMsg" style="color:red;"></p> 
+</div> 
+</div> 
+<!-- Movie Page --> 
+<div id="moviePage"> 
+<h1 style="text-align:center;">      
+Movie Search</h1> 
+<div style="text-align:center; margin-bottom:20px;"> 
+<input type="text" id="searchInput" placeholder="Enter movie name"> 
+<button onclick="searchMovies()">Search</button> 
+</div> 
+<ul id="movieList"></ul> 
+</div> 
+<script> 
+const apiKey = "33583da4"; //   
+async function login() { 
+const email = document.getElementById("email").value.trim(); 
+const password = document.getElementById("password").value.trim(); 
+const errorMsg = document.getElementById("errorMsg"); 
+try { 
+// Load users.json 
+const res = await fetch("users.json"); 
+const users = await res.json(); 
+// Check if user exists 
+const user = users.find(u => u.email === email && u.password === password); 
+if (user) { 
+document.getElementById("loginPage").style.display = "none"; 
+document.getElementById("moviePage").style.display = "block"; 
+} else { 
+errorMsg.textContent = "Invalid email or password"; 
+} 
+} catch (err) { 
+console.error("Error loading users.json:", err); 
+} 
+} 
+async function searchMovies() { 
+const searchTerm = document.getElementById("searchInput").value.trim(); 
+const apiUrl = `https://www.omdbapi.com/?apikey=${apiKey}&s=${searchTerm}`; 
+try { 
+const response = await fetch(apiUrl); 
+const data = await response.json(); 
+const movieList = document.getElementById("movieList"); 
+movieList.innerHTML = ""; 
+if (data.Response === "True") { 
+data.Search.forEach(movie => { 
+const li = document.createElement("li"); 
+li.classList.add("movie-card"); 
+li.innerHTML = ` 
+<img src="${movie.Poster !== "N/A" ? movie.Poster : 
+'https://via.placeholder.com/200x300?text=No+Image'}" alt="${movie.Title}"> 
+<h3>${movie.Title}</h3> 
+<p>Year: ${movie.Year}</p> 
+`; 
+movieList.appendChild(li); 
+}); 
+} else { 
+movieList.innerHTML = `<li>No movies found for "${searchTerm}"</li>`; 
+} 
+} catch (error) { 
+console.error("Error fetching movies:", error); 
+} 
+} 
+</script> 
+<style>
+body {
+font-family: Arial, sans-serif;
+background-color: #f0f0f0;
+margin: 0;
+padding: 0;
+}
+.container {
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+}
+.card {
+background: white;
+padding: 20px;
+border-radius: 8px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+text-align: center;
+}
+input {
+width: 80%;
+padding: 10px;
+margin: 10px 0;
+border: 1px solid #ccc;
+border-radius: 4px;
+}
+button {
+padding: 10px 20px;
+border: none;
+border-radius: 4px;
+background-color: #28a745;
+color: white;
+cursor: pointer;
+}
+button:hover {
+background-color: #218838;
+}
+#moviePage {
+display: none;
+padding: 20px;
+}
+#movieList {
+list-style: none;
+padding: 0;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+}
+.movie-card {
+background: white;
+border-radius: 8px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+margin: 10px;
+padding: 10px;
+width: 200px;
+text-align: center;
+}
+.movie-card img {
+width: 100%;
+border-radius: 4px;
+}
+.movie-card h3 {
+margin: 10px 0 5px 0;
+font-size: 18px;
+}
+.movie-card p {
+margin: 0;
+color: #555;
+font-size: 14px;
+}
 
-        }
-        input{
-            width: 350px;
-            padding: 8px;
-        }
-        #movies{
-            height: 250px;
-            width: 352px;
-            padding: 8px;
-            border: 1px solid teal;
-            border-top: none;
-            overflow: scroll;
-        }
-        #movies>div{
-            display: flex;
-            margin: 6px 0;
-        }
-        #movies>div>img{
-            max-width: 40%;
-            min-width: 40%;
-            max-height: 80px;
-            margin-right: 8px;
-        }
-        #search{
-            width: 25%;
-            padding: 20px;
-        }
-        #movieDesc{
-            display: flex;
-            width: 700px;
-            height: auto;
-            background-color: rgb(245, 246, 247);
-        }
-        #movieDesc>div>img{
-            width: 100%;
-            max-height: 550px;
-        }
-        #movieDesc>div{
-            padding: 20px;
-            width: 100%;
-        }
-    </style>
-</head>
-<body>
-    <div id="head">
-        <h2>Search movie name</h2>
-        <h2>Search result</h2>
-    </div>
-    <div id="cont">
-        <div id="search">
-            <input id="query" oninput="debounceFunction(main,600)" type="text" placeholder="Enter movie name">
-            <div id="movies"></div>
-        </div>
-        <div id="movieDesc"></div>
-    </div>
-</body>
-</html>
-<script>
-// url ---> https://www.omdbapi.com/?s=${query}&apikey=ffb0eb42
-
-    // get search data from imdb API
-    async function searchMovies(query){
-        try{
-        const url = `https://www.omdbapi.com/?s=${query}&apikey=ffb0eb42`;
-        let res = await fetch(url);
-        let data = await res.json();
-        return data.Search;
-        }catch(error){
-            console.log('error: ',error);
-        }
-    }
-
-    // Search movie according to user input
-    async function main(){
-        let query = document.getElementById('query').value;
-        let res = searchMovies(query); // async function returns promise
-        data = await res;
-        displayMovies(data);
-        console.log(data);
-    }
-
-    // Debounce function to inmprove process according to search speed
-    let id;
-    function debounceFunction(func,delay){
-        if(id){
-            clearTimeout(id);
-        }
-        id = setTimeout(function(){
-            func();
-        },delay);
-    }
-
-    // append search data next to search bar
-    const moviesDiv = document.getElementById('movies');
-    function displayMovies(movies){
-        moviesDiv.innerHTML = null;
-        if(movies === undefined){
-            let div = document.createElement('div');
-            let p = document.createElement('p');
-            p.innerText = 'Movie not found';
-            div.append(p);
-            moviesDiv.append(div);
-            return false;
-        }
-        else{
-            movies.forEach(el => {
-                let div = document.createElement('div');
-                let poster = document.createElement('img');
-                poster.src = el.Poster;
-                let name = document.createElement('h3');
-                name.innerText = el.Title;
-                div.append(poster,name);
-                moviesDiv.append(div);
-                div.addEventListener('click',function(){
-                    // console.log(el);
-                    movieDesc(el);
-                });
-                
-            });
-        }
-    }
-
-    // append data in to movie section
-    const moviesDesc = document.getElementById('movieDesc');
-    function movieDesc(movie){
-        moviesDesc.innerHTML = null;
-        let div = document.createElement('div');
-        let poster = document.createElement('img');
-        poster.src = movie.Poster;
-        let div1 = document.createElement('div');
-        let name = document.createElement('h3');
-        name.innerText = `Title: ${movie.Title}`;
-        let type = document.createElement('p');
-        type.innerText = `Type: ${movie.Type}`;
-        let year = document.createElement('p');
-        year.innerText = `Year: ${movie.Year}`;
-        div1.append(name,type,year);
-        div.append(poster,div1);
-        moviesDesc.append(div);
-    }
-</script>
-</body>
+</style>
+</body> 
 </html>
