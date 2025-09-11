@@ -1,0 +1,44 @@
+body {
+  font-family: Arial, sans-serif;
+  background-image:url('images/Login Background.jpg');
+  background-repeat: no-repeat;
+
+  background-size: cover;
+  text-align: center;
+}
+
+input {
+  margin: 50px;
+  padding: 50px;
+  width: 250px;
+}
+
+button {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+#family {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.member {
+  background: white;
+  border: 1px solid #ddd;
+  margin: 10px;
+  padding: 15px;
+  width: 220px;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+  border-radius: 8px;
+}
+
+.member img {
+  width: 100%;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+

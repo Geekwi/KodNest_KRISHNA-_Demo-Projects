@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login & Family Search</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- LOGIN PAGE -->
+  <div id="loginPage">
+    <h1>Login</h1>
+    <input type="text" id="username" placeholder="Username"><br>
+    <input type="password" id="password" placeholder="Password"><br>
+    <button onclick="login()">Login</button>
+    <p id="loginError" style="color:red;"></p>
+  </div>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: hwb(130 6% 7%);
+    }
+    input {
+      margin: 5px;
+      padding: 5px;
+      width: 200px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    
+
+    </style>
+
+  <!-- SEARCH PAGE (hidden until login success) -->
+  <div id="searchPage" style="display:none;">
+    <h1>Search Family</h1>
+    <input type="text" id="searchBox" placeholder="Search by name or relation...">
+    <div id="family"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

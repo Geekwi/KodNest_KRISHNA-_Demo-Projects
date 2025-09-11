@@ -1,0 +1,189 @@
+Perfect 👍 Now let’s combine both:
+
+Login Page → credentials stored in users.json
+
+After login → show Search Family Page (search by name/relation)
+
+Family members are loaded from family.json and displayed with image + details.
+
+📂 File Structure
+project/
+│── index.html
+│── style.css
+│── users.json
+│── family.json
+│── script.js
+│── images/
+      ├── father.jpg
+      ├── mother.jpg
+      ├── rahul.jpg
+      ├── priya.jpg
+      ├── aarav.jpg
+
+1️⃣ users.json
+[
+  { "username": "admin", "password": "1234" },
+  { "username": "rahul", "password": "pass" }
+]
+
+2️⃣ family.json
+[
+  { "name": "Rajesh Sharma", "relation": "Father", "age": 55, "img": "images/father.jpg" },
+  { "name": "Sunita Sharma", "relation": "Mother", "age": 50, "img": "images/mother.jpg" },
+  { "name": "Rahul Sharma", "relation": "Son", "age": 25, "img": "images/rahul.jpg" },
+  { "name": "Priya Sharma", "relation": "Daughter", "age": 20, "img": "images/priya.jpg" },
+  { "name": "Aarav Sharma", "relation": "Brother", "age": 15, "img": "images/aarav.jpg" }
+]
+
+3️⃣ index.html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login & Family Search</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- LOGIN PAGE -->
+  <div id="loginPage">
+    <h1>Login</h1>
+    <input type="text" id="username" placeholder="Username"><br>
+    <input type="password" id="password" placeholder="Password"><br>
+    <button onclick="login()">Login</button>
+    <p id="loginError" style="color:red;"></p>
+  </div>
+
+  <!-- SEARCH PAGE (hidden until login success) -->
+  <div id="searchPage" style="display:none;">
+    <h1>Search Family</h1>
+    <input type="text" id="searchBox" placeholder="Search by name or relation...">
+    <div id="family"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+style.css>
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  text-align: center;
+}
+
+input {
+  margin: 10px;
+  padding: 10px;
+  width: 250px;
+}
+
+button {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+#family {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.member {
+  background: white;
+  border: 1px solid #ddd;
+  margin: 10px;
+  padding: 15px;
+  width: 220px;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+  border-radius: 8px;
+}
+
+.member img {
+  width: 100%;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+5️⃣ script.js
+let usersData = [];
+let familyData = [];
+
+// Load login credentials
+fetch("users.json")
+  .then(response => response.json())
+  .then(data => { usersData = data; })
+  .catch(error => console.error("Error loading users:", error));
+
+// Login function
+function login() {
+  let username = document.getElementById("username").value.trim();
+  let password = document.getElementById("password").value.trim();
+
+  let user = usersData.find(u => u.username === username && u.password === password);
+
+  if (user) {
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("searchPage").style.display = "block";
+    loadFamily();
+  } else {
+    document.getElementById("loginError").textContent = "Invalid username or password!";
+  }
+}
+
+// Load family members
+function loadFamily() {
+  fetch("family.json")
+    .then(response => response.json())
+    .then(data => {
+      familyData = data;
+      document.getElementById("family").innerHTML = "<p>Start typing to search family members...</p>";
+    })
+    .catch(error => console.error("Error loading family:", error));
+}
+
+// Display family cards
+function displayFamily(list) {
+  let container = document.getElementById("family");
+  container.innerHTML = "";
+  list.forEach(member => {
+    let card = document.createElement("div");
+    card.className = "member";
+    card.innerHTML = `
+      <img src="${member.img}" alt="${member.name}">
+      <h2>${member.name}</h2>
+      <p>Relation: ${member.relation}</p>
+      <p>Age: ${member.age}</p>
+    `;
+    container.appendChild(card);
+  });
+
+  if (list.length === 0) {
+    container.innerHTML = "<p>No family members found.</p>";
+  }
+}
+
+// Search filter
+document.addEventListener("input", function(e) {
+  if (e.target.id === "searchBox") {
+    let query = e.target.value.toLowerCase();
+    if (query === "") {
+      document.getElementById("family").innerHTML = "<p>Start typing to search family members...</p>";
+      return;
+    }
+    let filtered = familyData.filter(member =>
+      member.name.toLowerCase().includes(query) ||
+      member.relation.toLowerCase().includes(query)
+    );
+    displayFamily(filtered);
+  }
+});
+
+✅ Flow
+
+User logs in using credentials from users.json.
+
+If login is correct → search page opens.
+
+Initially, search area shows "Start typing to search family members...".
+
+When user types (e.g., "Father", "Priya") → matching family member cards are displayed with image + details.

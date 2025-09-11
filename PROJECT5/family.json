@@ -1,0 +1,11 @@
+[
+  { "name": "SHEKHARAPPA BADIGER", "relation": "Father", "age": 60, "img": "images/Father 1.jpg" },
+  { "name": "CHANNABASAMMA BADIGER", "relation": "Mother", "age": 56, "img": "images/Mother 2.jpg" },
+  { "name": "VINAYAKA BADIGER", "relation": "Brother", "age": 30, "img": "images/Brother.jpg" },
+  { "name": "NIRAMAL BADIGER", "relation": "Elder Sister", "age": 28, "img": "images/Sister 4.jpg" },
+  { "name": "KRISHNA BADIGER", "relation": "Young Brother", "age": 25, "img": "images/Profile2.jpg" },
+  { "name": "KIRANA BADIGER", "relation": "Youngr Brother", "age": 22, "img": "images/young bro 6.jpg" },
+  { "name": "RAKESH SENDIMANI", "relation": "MAMA", "age": 32, "img": "images/mama.jpg" },
+  { "name": "VEDHATH", "relation": "Youngr SON LAW", "age": 5, "img": "images/Vedhath3.jpg" }
+
+]

@@ -1,0 +1,4 @@
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypasspip install virtualenv
+myenv\\Scripts\\activate
+pip install django
+django-admin --version
